@@ -99,8 +99,8 @@ imgin = function(options) {
         
         /** 
          * Loading function
-         * Loops through images array and loads any that are in the viewport 
-         * After loading, images are removed from the images array and the attribute defined by options.attr is removed from the image element
+         * Loops through images collection and loads any that are in the viewport 
+         * After loading, images are removed from the collection and the attribute defined by options.attr is removed from the image element
          */
         load: function() {
             // Create a filtered image set of only images in the viewport
