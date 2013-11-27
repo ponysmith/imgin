@@ -53,7 +53,7 @@ imgin = function(options) {
          * Find lazy loadable images
          */
         find: function() {
-            _images = $('img[' + _options.attr + ']');
+            if(_images === null) _images = $('img[' + _options.attr + ']');
             if(_images.length) _private.bind();
         },
 
@@ -99,14 +99,20 @@ imgin = function(options) {
         
         /** 
          * Loading function
-         * Loops through images collection and loads any that are in the viewport 
-         * After loading, images are removed from the collection and the attribute defined by options.attr is removed from the image element
+         * Loops through images array and loads any that are in the viewport 
+         * After loading, images are removed from the images array and the attribute defined by options.attr is removed from the image element
+         * @param (bool) force: If true, automatically loads all images, not just those in the viewport
          */
-        load: function() {
-            // Create a filtered image set of only images in the viewport
-            var imgs = _images.filter(function() {
-                return _private.inviewport($(this).get(0)); 
-            });
+        load: function(force) {
+            if(force) {
+                // Load all images
+                var imgs = _images;
+            } else {
+                // Create a filtered image set of only images in the viewport
+                var imgs = _images.filter(function() {
+                    return _private.inviewport($(this).get(0)); 
+                });
+            }
             // Loop through image set and load images
             imgs.each(function() {
                 var img = $(this);
@@ -126,7 +132,8 @@ imgin = function(options) {
                     });
                 });
             }); 
-        }
+        },
+
     }
 
 
@@ -134,6 +141,14 @@ imgin = function(options) {
      * Public object
      */
     var _public = {
+
+        /** 
+         * Immediately finish loading all images
+         */
+        force: function() {
+            _private.load(true);
+        }
+
     }
 
     // Initiate the plugin and return the _public object to the calling script
