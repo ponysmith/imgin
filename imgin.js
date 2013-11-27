@@ -53,7 +53,7 @@ imgin = function(options) {
          * Find lazy loadable images
          */
         find: function() {
-            if(_images === null) _images = $('img[' + _options.attr + ']');
+            _images = $('img[' + _options.attr + ']');
             if(_images.length) _private.bind();
         },
 
@@ -147,6 +147,15 @@ imgin = function(options) {
          */
         force: function() {
             _private.load(true);
+        },
+
+        /** 
+         * Refresh the loadable image list and trigger a check
+         */
+        refresh: function() {
+            _private.find();
+            console.log(_images);
+            _private.check();
         }
 
     }
