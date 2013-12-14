@@ -15,8 +15,6 @@ imgin = function(options) {
         offset: 0, 
         // Milliseconds to wait after scroll/resize event finishes before triggering load cycle
         lag: 300, 
-        // Time in milliseconds for the transition of fading in loaded images
-        transition: 800, 
         // HTML attribute that will store the image src (best to leave this as is unless you have a good reason to change it)
         attr: 'data-imginsrc', 
         // Callback functions
@@ -43,7 +41,7 @@ imgin = function(options) {
             $.extend(_options, options);
             // Find lazy-loadable images
             _private.find();
-            // Check the array and fun the initial load cycle
+            // Check the array and run the initial load cycle
             _private.check();
             // Return the public object
             return _public;
@@ -115,21 +113,16 @@ imgin = function(options) {
             }
             // Loop through image set and load images
             imgs.each(function() {
+                // Load the image
                 var img = $(this);
                 var src = img.attr(_options.attr);
-                // Hide the image before loading and remove the lazyload attribute
-                // Using animate and opacity instead of fadeIn/Out/To 
-                // Doing this because we don't want an inline 'display' style on the element 
-                // Opacity is less likely to conflict with stylesheet rules
-                img.attr('src', src).css({ 'opacity': 0 }).removeAttr(_options.attr);
+                img.attr('src',src);
                 // Remove the current image from the master image set
                 _images = _images.not(img);
-                // Load the image and fade in when loaded
+                // When the image is loaded, remove the attribute and fire the callback
                 img.on('load', function() {
-                    $(this).animate({ 'opacity': 1 }, _options.transition, function() {
-                        // Fire the onload callback if there is one
-                        if(typeof _options.onload === 'function') _options.onload($(this));
-                    });
+                    $(this).removeAttr(_options.attr);
+                    if(typeof _options.onload === 'function') _options.onload($(this));
                 });
             }); 
         },
@@ -154,7 +147,6 @@ imgin = function(options) {
          */
         refresh: function() {
             _private.find();
-            console.log(_images);
             _private.check();
         }
 
