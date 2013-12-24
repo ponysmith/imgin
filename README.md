@@ -60,12 +60,6 @@ The plugin takes an options object as its single (optional) parameter.  Any or a
 			<td>Time (in milliseconds) to wait after scrolling/resizing stops before initiating a load cycle</td>
 		</tr>		
 		<tr>
-			<td>transition</td>
-			<td>int</td>
-			<td>800</td>
-			<td>Time (in milliseconds) for the fade-in transition of loaded images</td>
-		</tr>		
-		<tr>
 			<td>onload</td>
 			<td>function</td>
 			<td>null</td>
@@ -103,7 +97,7 @@ The refresh method refreshes the images set and adds any new lazy-loadable image
 	var myimgs = imgin();
 	
 	//
-	// Let's assume theres some code here that adds some new lazy-loadable images to the DOM
+	// Let's assume there's some code here that adds new lazy-loadable images to the DOM
 	// 
 	
 	// Refresh the image set
