@@ -11,7 +11,7 @@ While not a traditional jQuery plugin, imgin.js does require jQuery 1.7+ to run.
 ## Usage ##
 
 Once you have included the javascript in your page, you can initialize the plugin by:
-* Adding a data property to your image tags that will store the image path.  By default, the plugin uses the `data-loadsrc` attribute, but you can specify a custom attribute in the options object.  **Note:** To maximize performance, the image tags should not have a standard `src` attribute.  **imgin.js** will create the `src` attribute.
+* Adding a data property to your image tags that will store the image path.  By default, the plugin uses the `data-imginsrc` attribute, but you can specify a custom attribute in the options object.  **Note:** To maximize performance, the image tags should not have a standard `src` attribute.  **imgin.js** will create the `src` attribute.
 * Call the `imgin()` function inside your `document.ready` jQuery block.
 
 **Example**
