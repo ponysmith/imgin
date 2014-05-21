@@ -23,7 +23,7 @@
             // Pixels above / below the viewport to begin loading images (can be negative to not load until further in viewport)
             offset: 0, 
             // Milliseconds to wait after scroll/resize event finishes before triggering load cycle
-            lag: 300, 
+            lag: 200, 
             // HTML attribute that will store the image src (best to leave this as is unless you have a good reason to change it)
             attr: 'data-imginsrc', 
             // Callback functions
@@ -60,7 +60,7 @@
              * Find lazy loadable images
              */
             find: function() {
-                _images = $('img[' + _options.attr + ']');
+                _images = $('img[' + _options.attr + ']').attr('data-imginloaded', 'false');
                 if(_images.length) _private.bind();
             },
 
@@ -122,17 +122,22 @@
                 }
                 // Loop through image set and load images
                 imgs.each(function() {
-                    // Load the image
                     var img = $(this);
                     var src = img.attr(_options.attr);
-                    img.attr('src',src);
-                    // Remove the current image from the master image set
-                    _images = _images.not(img);
-                    // When the image is loaded, remove the attribute and fire the callback
-                    img.on('load', function() {
-                        $(this).removeAttr(_options.attr);
-                        if(typeof _options.onload === 'function') _options.onload($(this));
-                    });
+                    // Preload the image data in a temp image
+                    var newImg = new Image();
+                    newImg.src = src;
+                    // When image is loaded
+                    newImg.onload = function() {
+                        // Add the src attribute to the original image
+                        img.removeAttr(_options.attr).attr('data-imginloaded', 'true').attr('src',src);
+                        // Remove the current image from the master images array
+                        _images = _images.not(img);
+                        // Trigger onload callback if available
+                        if(typeof _options.onload === 'function') _options.onload(img);
+                        // Remove the reference for cleanup
+                        newImg = null;
+                    }
                 }); 
             },
 
